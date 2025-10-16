@@ -2,21 +2,54 @@
 #include <sstream>
 
 LinkedList::LinkedList() : head_(nullptr) {}
-LinkedList::~LinkedList() {
-    Node* p = head_;
-    while (p) { Node* n = p->next; delete p; p = n; }
+LinkedList::~LinkedList()
+{
+    Node *p = head_;
+    while (p)
+    {
+        Node *n = p->next;
+        delete p;
+        p = n;
+    }
 }
 void LinkedList::push_front(int v) { head_ = new Node(v, head_); }
-void LinkedList::remove_evens() {
-    // TODO: implement
+void LinkedList::remove_evens()
+{
+    Node *curr = head_;
+    Node *prev = nullptr;
+    while (curr)
+    {
+        if (curr->value % 2 == 0)
+        {
+            Node *to_delete = curr;
+            if (prev)
+            {
+                prev->next = curr->next;
+            }
+            else
+            {
+                head_ = curr->next;
+            }
+            curr = curr->next;
+            delete to_delete;
+        }
+        else
+        {
+            prev = curr;
+            curr = curr->next;
+        }
+    }
 }
-std::string LinkedList::to_string() const {
+std::string LinkedList::to_string() const
+{
     std::ostringstream oss;
     oss << "[";
-    Node* p = head_;
+    Node *p = head_;
     bool first = true;
-    while (p) {
-        if (!first) oss << ", ";
+    while (p)
+    {
+        if (!first)
+            oss << ", ";
         first = false;
         oss << p->value;
         p = p->next;
